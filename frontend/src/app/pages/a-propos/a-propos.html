@@ -1,30 +1,27 @@
-<div class="container py-5">
+<div class="container py-4">
+  <h2 class="mb-4">À propos</h2>
 
-  <a routerLink="/actifs" class="btn btn-outline-secondary btn-sm mb-4">
-    <i class="bi bi-arrow-left me-1"></i> Retour au tableau de bord
-  </a>
-
-  <div class="text-center mb-5">
-    <h1 class="fw-bold">Comment utiliser InfraScan Pro</h1>
-    <p class="text-muted">Un guide rapide pour tirer le maximum de la plateforme</p>
-  </div>
-
-  <div class="row g-4">
-    @for (etape of etapes; track etape.titre) {
-      <div class="col-md-6">
-        <div class="card border-0 shadow-sm h-100">
-          <div class="card-body p-4 d-flex">
-            <div class="etape-icon me-3">
-              <i class="bi {{ etape.icone }}"></i>
-            </div>
-            <div>
-              <h6 class="fw-bold mb-1">{{ etape.titre }}</h6>
-              <p class="small text-muted mb-0">{{ etape.description }}</p>
-            </div>
+  <div class="row g-3">
+    <div class="col-12" *ngFor="let etape of etapes">
+      <div class="card border-0 shadow-sm p-3">
+        <div class="d-flex align-items-start gap-3">
+          <div class="p-2 bg-light rounded text-primary fs-4">
+            <i class="bi" [ngClass]="etape.icone"></i>
+          </div>
+          <div>
+            <h5 class="fw-bold mb-1">{{ etape.titre }}</h5>
+            <p class="text-muted mb-0">{{ etape.description }}</p>
           </div>
         </div>
       </div>
-    }
+    </div>
   </div>
 
+
+  <p class="mt-4 text-muted">
+    Envie d'en savoir plus sur le projet ? 
+    <a routerLink="/portfolio" class="fw-bold text-decoration-underline ms-1" style="color: #0b3d24;">
+      Découvre l'histoire derrière InfraScan Pro
+    </a>
+  </p>
 </div>
