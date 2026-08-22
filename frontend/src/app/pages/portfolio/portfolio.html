@@ -1,0 +1,93 @@
+<div class="container py-5">
+
+  <a [routerLink]="estConnecte ? '/actifs' : '/'" class="btn btn-outline-secondary btn-sm mb-4">
+    <i class="bi bi-arrow-left me-1"></i> {{ estConnecte ? 'Retour au tableau de bord' : 'Retour à l\'accueil' }}
+  </a>
+
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4 p-md-5">
+      <div class="row align-items-center g-4">
+        <div class="col-md-3 text-center">
+          <div class="avatar-placeholder mx-auto">
+            <i class="bi bi-person-fill"></i>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <h1 class="fw-bold mb-1">{{ nomComplet }}</h1>
+          <p class="text-muted fs-5 mb-3">{{ titre }}</p>
+          <div class="d-flex flex-wrap gap-2">
+            <a [href]="githubUrl" target="_blank" rel="noopener" class="btn btn-dark btn-sm">
+              <i class="bi bi-github me-1"></i> GitHub
+            </a>
+            <a [href]="linkedinUrl" target="_blank" rel="noopener" class="btn btn-primary btn-sm">
+              <i class="bi bi-linkedin me-1"></i> LinkedIn
+            </a>
+            <a [href]="'mailto:' + email" class="btn btn-outline-secondary btn-sm">
+              <i class="bi bi-envelope me-1"></i> {{ email }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body p-4">
+          <h5 class="fw-bold text-uppercase text-muted mb-3">
+            <i class="bi bi-info-circle me-2"></i>À propos du projet
+          </h5>
+          <p class="mb-3">
+            <strong>InfraScan Pro</strong> est né d'une réflexion simple : plusieurs organisations
+            qui gèrent des infrastructures physiques (ponts, réseaux, équipements) n'ont pas
+            toujours accès à des outils de suivi modernes — souvent parce que ces solutions sont
+            trop coûteuses, trop complexes, ou simplement pas conçues pour leurs besoins réels.
+          </p>
+          <p class="mb-3">
+            Ce projet a été pensé comme un produit concret plutôt qu'un simple exercice technique :
+            une plateforme légère, mais complète, qui pourrait réellement servir à des municipalités,
+            des équipes d'inspection ou des gestionnaires d'actifs qui n'ont pas besoin — ou pas les
+            moyens — de solutions d'entreprise lourdes.
+          </p>
+          <p class="mb-4">
+            Au-delà de l'idée, ce qui me motive le plus dans ce projet, c'est le plaisir de construire
+            un vrai produit de bout en bout : de la base de données jusqu'au déploiement cloud, en
+            passant par la sécurité, l'expérience utilisateur et les bonnes pratiques DevOps. J'aime
+            apprendre de nouvelles technologies en les appliquant concrètement plutôt qu'en théorie
+            seulement, et ce projet reflète cette approche.
+          </p>
+
+          <h6 class="fw-bold text-uppercase text-muted small mb-2">Fonctionnalités</h6>
+          <ul class="list-unstyled">
+            @for (fonctionnalite of fonctionnalites; track fonctionnalite) {
+              <li class="mb-2">
+                <i class="bi bi-check-circle-fill text-success me-2"></i>{{ fonctionnalite }}
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body p-4">
+          <h5 class="fw-bold text-uppercase text-muted mb-3">
+            <i class="bi bi-stack me-2"></i>Stack technique
+          </h5>
+          <div class="row g-2">
+            @for (tech of technologies; track tech.nom) {
+              <div class="col-6">
+                <div class="tech-badge">
+                  <i class="bi {{ tech.icone }} me-2"></i>{{ tech.nom }}
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

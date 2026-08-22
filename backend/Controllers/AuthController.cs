@@ -41,6 +41,7 @@ namespace InfraScan.Controllers
             var nouvelUtilisateur = new Utilisateur
             {
                 Username = dto.Username,
+                Email = dto.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
                 Role = dto.Role
             };

@@ -15,26 +15,17 @@ export class SignupComponent {
   private router = inject(Router);
 
   username: string = '';
+  email: string = '';
   password: string = '';
   isLoading: boolean = false;
   erreurMessage: string = '';
   afficherMotDePasse: boolean = false;
 
-  get critereLongueur(): boolean {
-    return this.password.length >= 8;
-  }
-  get critereMajuscule(): boolean {
-    return /[A-Z]/.test(this.password);
-  }
-  get critereMinuscule(): boolean {
-    return /[a-z]/.test(this.password);
-  }
-  get critereChiffre(): boolean {
-    return /[0-9]/.test(this.password);
-  }
-  get critereSpecial(): boolean {
-    return /[\W_]/.test(this.password);
-  }
+  get critereLongueur(): boolean { return this.password.length >= 8; }
+  get critereMajuscule(): boolean { return /[A-Z]/.test(this.password); }
+  get critereMinuscule(): boolean { return /[a-z]/.test(this.password); }
+  get critereChiffre(): boolean { return /[0-9]/.test(this.password); }
+  get critereSpecial(): boolean { return /[\W_]/.test(this.password); }
   get motDePasseValide(): boolean {
     return this.critereLongueur && this.critereMajuscule &&
            this.critereMinuscule && this.critereChiffre && this.critereSpecial;
@@ -48,6 +39,7 @@ export class SignupComponent {
 
     const payload = {
       Username: this.username,
+      Email: this.email,
       Password: this.password,
       Role: 'Inspecteur'
     };

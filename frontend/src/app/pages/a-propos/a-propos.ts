@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-a-propos',
@@ -10,42 +9,42 @@ import { AuthService } from '../../services/auth';
   templateUrl: './a-propos.html',
   styleUrl: './a-propos.scss'
 })
-
 export class AProposComponent {
-    private authService = inject(AuthService);
-
-  get estConnecte(): boolean {
-    return this.authService.isLoggedIn();
-  }
-  nomComplet = 'Tony Mourrah';
-  titre = 'Étudiant en génie logiciel — ÉTS';
-  githubUrl = 'https://github.com/TonyMourrah';
-  linkedinUrl = 'https://www.linkedin.com/in/tony-mourrah-b819551b2/';
-  email = 'tony.mourrah.1@ens.etsmtl.ca';
-
-  technologies = [
-    { nom: 'Angular', icone: 'bi-code-slash' },
-    { nom: '.NET / C#', icone: 'bi-server' },
-    { nom: 'Entity Framework Core', icone: 'bi-database' },
-    { nom: 'Azure SQL Database', icone: 'bi-cloud' },
-    { nom: 'Azure App Service', icone: 'bi-cloud-arrow-up' },
-    { nom: 'GitHub Actions (CI/CD)', icone: 'bi-gear-wide-connected' },
-    { nom: 'Bootstrap 5', icone: 'bi-palette' },
-    { nom: 'Leaflet / OpenStreetMap', icone: 'bi-geo-alt' }
-  ];
-
-  fonctionnalites = [
-    'Authentification et gestion d\'utilisateurs',
-    'Gestion complète (CRUD) des actifs routiers — ponts, viaducs, tunnels',
-    'Traçabilité complète : création et modification horodatées par utilisateur',
-    'Géolocalisation automatique des actifs avec carte interactive (Leaflet + OpenStreetMap)',
-    'Recherche géographique en cascade (nom précis → ville → position par défaut)',
-    'Tableau de bord avec statistiques en temps réel (santé moyenne, urgences)',
-    'Galerie d\'images par actif pour documenter visuellement l\'état des structures',
-    'Historique visuel de l\'état de santé avec graphique d\'évolution dans le temps',
-    'Mots de passe sécurisés par hachage cryptographique (BCrypt)',
-    'Tests automatisés (unitaires et intégration) intégrés au pipeline CI/CD',
-    'Export CSV des données pour rapports',
-    'Déploiement cloud complet sur Azure avec pipeline CI/CD automatisé'
+  etapes = [
+    {
+      icone: 'bi-person-plus',
+      titre: '1. Créer un compte',
+      description: 'Inscris-toi avec un identifiant, un courriel et un mot de passe sécurisé. Une fois connecté, tu arrives sur ton tableau de bord.'
+    },
+    {
+      icone: 'bi-speedometer2',
+      titre: '2. Explorer le tableau de bord',
+      description: 'Vois d\'un coup d\'œil le nombre total d\'actifs, la santé moyenne et les urgences. Recherche ou trie la liste par nom ou par priorité.'
+    },
+    {
+      icone: 'bi-plus-circle',
+      titre: '3. Créer un nouvel actif',
+      description: 'Clique sur "Nouvel actif", remplis le nom, le type, la ville et la date d\'inspection. Utilise le bouton de géolocalisation pour situer automatiquement l\'actif sur la carte.'
+    },
+    {
+      icone: 'bi-camera',
+      titre: '4. Ajouter une photo',
+      description: 'Dans le formulaire de création ou de modification, choisis une image (JPG, PNG ou WEBP, max 5 MB) pour documenter visuellement l\'état de l\'actif.'
+    },
+    {
+      icone: 'bi-graph-up',
+      titre: '5. Suivre l\'évolution',
+      description: 'Chaque modification de l\'indice de santé est enregistrée. Consulte la page détail d\'un actif pour voir le graphique d\'évolution et le journal complet des inspections.'
+    },
+    {
+      icone: 'bi-file-earmark-excel',
+      titre: '6. Exporter tes données',
+      description: 'Clique sur "Exporter" pour télécharger un rapport CSV de tous tes actifs — utile pour des présentations ou des analyses externes.'
+    },
+    {
+      icone: 'bi-gear',
+      titre: '7. Gérer ton compte',
+      description: 'Dans "Paramètres", consulte tes informations et change ton mot de passe en tout temps.'
+    }
   ];
 }

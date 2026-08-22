@@ -6,14 +6,14 @@ import { AuthService } from '../../services/auth';
 import { GeocodingService } from '../../services/geocoding';
 import { RouterModule } from '@angular/router';
 
-const COORDS_PAR_DEFAUT = { lat: 46.8139, lng: -71.2080 };
+const COORDS_PAR_DEFAUT = { lat: 46.8139, lng: -71.208 };
 
 @Component({
   selector: 'app-actif-list',
   standalone: true,
   imports: [CommonModule, NgClass, FormsModule, RouterModule],
   templateUrl: './actif-list.html',
-  styleUrl: './actif-list.scss'
+  styleUrl: './actif-list.scss',
 })
 export class ActifListComponent implements OnInit {
   actifs: any[] = [];
@@ -39,7 +39,7 @@ export class ActifListComponent implements OnInit {
 
   constructor(
     private actifService: ActifService,
-    private geocodingService: GeocodingService
+    private geocodingService: GeocodingService,
   ) {}
 
   ngOnInit(): void {
@@ -58,7 +58,7 @@ export class ActifListComponent implements OnInit {
       error: (err) => {
         console.error('Erreur lors du chargement', err);
         this.isLoadingListe = false;
-      }
+      },
     });
   }
 
@@ -81,7 +81,7 @@ export class ActifListComponent implements OnInit {
 
     if (this.searchTerm) {
       const term = this.searchTerm.toLowerCase();
-      result = result.filter(a => {
+      result = result.filter((a) => {
         const nom = (a.nom || a.Nom || '').toLowerCase();
         const ville = (a.ville || a.Ville || '').toLowerCase();
         const type = (a.type || a.Type || '').toLowerCase();
@@ -92,19 +92,26 @@ export class ActifListComponent implements OnInit {
     return result;
   }
 
-  get totalActifs(): number { return this.actifs.length; }
+  get totalActifs(): number {
+    return this.actifs.length;
+  }
 
   get moyenneSante(): number {
     if (this.actifs.length === 0) return 0;
-    const total = this.actifs.reduce((acc, curr) => acc + (curr.etatSante ?? curr.EtatSante ?? 0), 0);
+    const total = this.actifs.reduce(
+      (acc, curr) => acc + (curr.etatSante ?? curr.EtatSante ?? 0),
+      0,
+    );
     return Math.round(total / this.actifs.length);
   }
 
   get interventionsUrgentes(): number {
-    return this.actifs.filter(a => (a.etatSante ?? a.EtatSante ?? 100) < 40).length;
+    return this.actifs.filter((a) => (a.etatSante ?? a.EtatSante ?? 100) < 40).length;
   }
-
-  getPriorite(score: number): { texte: string, classe: string } {
+  get isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+  getPriorite(score: number): { texte: string; classe: string } {
     if (score < 40) return { texte: 'CRITIQUE', classe: 'bg-danger' };
     if (score < 75) return { texte: 'À SURVEILLER', classe: 'bg-warning text-dark' };
     return { texte: 'OPTIMAL', classe: 'bg-success' };
@@ -125,7 +132,7 @@ export class ActifListComponent implements OnInit {
         latitude: 45.56,
         longitude: -73.71,
         derniereInspection: new Date().toISOString().split('T')[0],
-        etatSante: 75
+        etatSante: 75,
       });
     });
   }
@@ -144,7 +151,7 @@ export class ActifListComponent implements OnInit {
       derniereInspection: actif.derniereInspection ? actif.derniereInspection.split('T')[0] : '',
       etatSante: actif.etatSante ?? actif.EtatSante ?? 75,
       latitude: actif.latitude,
-      longitude: actif.longitude
+      longitude: actif.longitude,
     });
   }
 
@@ -178,7 +185,7 @@ export class ActifListComponent implements OnInit {
     const ville = (this.actifForm.value.ville || '').trim();
 
     if (!ville || ville.length < 2) {
-      this.geocodeMessage = "Entre au moins une ville avant de localiser.";
+      this.geocodeMessage = 'Entre au moins une ville avant de localiser.';
       this.geocodeMessageType = 'warning';
       return;
     }
@@ -191,23 +198,31 @@ export class ActifListComponent implements OnInit {
     this.geocodingService.rechercherAdresse(requetePrecise).subscribe({
       next: (resultats) => {
         if (resultats.length > 0) {
-          this.appliquerCoordonnees(resultats[0].lat, resultats[0].lon,
-            `Position précise trouvée pour "${nom || ville}".`, 'success');
+          this.appliquerCoordonnees(
+            resultats[0].lat,
+            resultats[0].lon,
+            `Position précise trouvée pour "${nom || ville}".`,
+            'success',
+          );
           return;
         }
         if (nom) {
           this.tenterAvecVilleSeule(ville);
         } else {
-          this.appliquerCoordonneesParDefaut(`"${ville}" introuvable — position approximative appliquée.`);
+          this.appliquerCoordonneesParDefaut(
+            `"${ville}" introuvable — position approximative appliquée.`,
+          );
         }
       },
       error: () => {
         if (nom) {
           this.tenterAvecVilleSeule(ville);
         } else {
-          this.appliquerCoordonneesParDefaut("Erreur de recherche — position approximative appliquée.");
+          this.appliquerCoordonneesParDefaut(
+            'Erreur de recherche — position approximative appliquée.',
+          );
         }
-      }
+      },
     });
   }
 
@@ -215,23 +230,36 @@ export class ActifListComponent implements OnInit {
     this.geocodingService.rechercherAdresse(ville).subscribe({
       next: (resultats) => {
         if (resultats.length > 0) {
-          this.appliquerCoordonnees(resultats[0].lat, resultats[0].lon,
-            `Adresse précise introuvable — position de "${ville}" appliquée.`, 'warning');
+          this.appliquerCoordonnees(
+            resultats[0].lat,
+            resultats[0].lon,
+            `Adresse précise introuvable — position de "${ville}" appliquée.`,
+            'warning',
+          );
         } else {
-          this.appliquerCoordonneesParDefaut(`"${ville}" introuvable — position approximative appliquée.`);
+          this.appliquerCoordonneesParDefaut(
+            `"${ville}" introuvable — position approximative appliquée.`,
+          );
         }
       },
       error: () => {
-        this.appliquerCoordonneesParDefaut("Erreur de recherche — position approximative appliquée.");
-      }
+        this.appliquerCoordonneesParDefaut(
+          'Erreur de recherche — position approximative appliquée.',
+        );
+      },
     });
   }
 
-  private appliquerCoordonnees(lat: string, lon: string, message: string, type: 'success' | 'warning'): void {
+  private appliquerCoordonnees(
+    lat: string,
+    lon: string,
+    message: string,
+    type: 'success' | 'warning',
+  ): void {
     this.isGeocoding = false;
     this.actifForm.form.patchValue({
       latitude: parseFloat(lat),
-      longitude: parseFloat(lon)
+      longitude: parseFloat(lon),
     });
     this.geocodeMessage = message;
     this.geocodeMessageType = type;
@@ -241,7 +269,7 @@ export class ActifListComponent implements OnInit {
     this.isGeocoding = false;
     this.actifForm.form.patchValue({
       latitude: COORDS_PAR_DEFAUT.lat,
-      longitude: COORDS_PAR_DEFAUT.lng
+      longitude: COORDS_PAR_DEFAUT.lng,
     });
     this.geocodeMessage = message;
     this.geocodeMessageType = 'warning';
@@ -261,7 +289,7 @@ export class ActifListComponent implements OnInit {
       EtatSante: Number(formValue.etatSante) || 0,
       DerniereInspection: formValue.derniereInspection,
       Latitude: latitude,
-      Longitude: longitude
+      Longitude: longitude,
     };
 
     if (this.modeEdition && this.idEnEdition) {
@@ -271,10 +299,10 @@ export class ActifListComponent implements OnInit {
       this.actifService.putActif(this.idEnEdition, payload).subscribe({
         next: () => this.gererImagePuisFinaliser(this.idEnEdition!),
         error: (err) => {
-          alert("Erreur lors de la modification.");
+          alert('Erreur lors de la modification.');
           console.error('Erreur lors de la modification:', err);
           this.isSaving = false;
-        }
+        },
       });
     } else {
       payload.CreePar = this.username;
@@ -285,7 +313,7 @@ export class ActifListComponent implements OnInit {
           alert("Erreur lors de l'ajout.");
           console.error("Détails de l'erreur POST:", err);
           this.isSaving = false;
-        }
+        },
       });
     }
   }
@@ -299,7 +327,7 @@ export class ActifListComponent implements OnInit {
           console.error("Erreur lors de l'upload de l'image:", err);
           alert("L'actif a été sauvegardé, mais l'image n'a pas pu être téléversée.");
           this.finaliserEnregistrement();
-        }
+        },
       });
     } else {
       this.finaliserEnregistrement();
@@ -322,13 +350,13 @@ export class ActifListComponent implements OnInit {
       this.isDeletingId = id;
       this.actifService.deleteActif(id).subscribe({
         next: () => {
-          this.actifs = this.actifs.filter(a => a.id !== id);
+          this.actifs = this.actifs.filter((a) => a.id !== id);
           this.isDeletingId = null;
         },
         error: () => {
           alert('Erreur lors de la suppression.');
           this.isDeletingId = null;
-        }
+        },
       });
     }
   }
@@ -341,7 +369,7 @@ export class ActifListComponent implements OnInit {
         const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
         modal.hide();
       }
-      document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+      document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
       document.body.classList.remove('modal-open');
       document.body.style.overflow = '';
     }
@@ -358,19 +386,16 @@ export class ActifListComponent implements OnInit {
 
     const headers = ['ID', 'Nom', 'Type', 'Ville', 'Sante', 'Derniere Inspection'];
 
-    const rows = this.actifs.map(a => [
+    const rows = this.actifs.map((a) => [
       a.id,
       `"${a.nom || a.Nom || ''}"`,
       a.type || a.Type || '',
       a.ville || a.Ville || '',
       `${a.etatSante ?? a.EtatSante ?? 0}%`,
-      a.derniereInspection?.split('T')[0] || ''
+      a.derniereInspection?.split('T')[0] || '',
     ]);
 
-    const csvContent = [
-      headers.join(';'),
-      ...rows.map(e => e.join(';'))
-    ].join('\n');
+    const csvContent = [headers.join(';'), ...rows.map((e) => e.join(';'))].join('\n');
 
     const BOM = '\uFEFF';
     const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });

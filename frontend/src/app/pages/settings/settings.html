@@ -1,0 +1,76 @@
+<div class="container py-5" style="max-width: 700px;">
+  <a routerLink="/actifs" class="btn btn-outline-secondary btn-sm mb-4">
+    <i class="bi bi-arrow-left me-1"></i> Retour au tableau de bord
+  </a>
+
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary"></div>
+  </div>
+
+  <div *ngIf="!loading">
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body p-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-person-circle me-2"></i>Mon profil</h5>
+        <div class="d-flex justify-content-between border-bottom py-2">
+          <span class="text-muted small">Identifiant</span>
+          <span class="fw-bold small">{{ username }}</span>
+        </div>
+        <div class="d-flex justify-content-between border-bottom py-2">
+          <span class="text-muted small">Courriel</span>
+          <span class="fw-bold small">{{ email || 'Non renseigné' }}</span>
+        </div>
+        <div class="d-flex justify-content-between py-2">
+          <span class="text-muted small">Rôle</span>
+          <span class="badge bg-secondary">{{ role }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-shield-lock me-2"></i>Changer le mot de passe</h5>
+
+        <div class="mb-3">
+          <label class="form-label small fw-bold">Mot de passe actuel</label>
+          <input type="password" class="form-control" [(ngModel)]="ancienMotDePasse" name="ancien">
+        </div>
+
+        <div class="mb-2">
+          <label class="form-label small fw-bold">Nouveau mot de passe</label>
+          <input type="password" class="form-control" [(ngModel)]="nouveauMotDePasse" name="nouveau">
+        </div>
+
+        <div class="mb-3 ps-1">
+          <div class="small" [ngClass]="critereLongueur ? 'text-success' : 'text-muted'">
+            <i class="bi" [ngClass]="critereLongueur ? 'bi-check-circle-fill' : 'bi-circle'"></i> Au moins 8 caractères
+          </div>
+          <div class="small" [ngClass]="critereMajuscule ? 'text-success' : 'text-muted'">
+            <i class="bi" [ngClass]="critereMajuscule ? 'bi-check-circle-fill' : 'bi-circle'"></i> Une majuscule
+          </div>
+          <div class="small" [ngClass]="critereMinuscule ? 'text-success' : 'text-muted'">
+            <i class="bi" [ngClass]="critereMinuscule ? 'bi-check-circle-fill' : 'bi-circle'"></i> Une minuscule
+          </div>
+          <div class="small" [ngClass]="critereChiffre ? 'text-success' : 'text-muted'">
+            <i class="bi" [ngClass]="critereChiffre ? 'bi-check-circle-fill' : 'bi-circle'"></i> Un chiffre
+          </div>
+          <div class="small" [ngClass]="critereSpecial ? 'text-success' : 'text-muted'">
+            <i class="bi" [ngClass]="critereSpecial ? 'bi-check-circle-fill' : 'bi-circle'"></i> Un caractère spécial
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-bold">Confirmer le nouveau mot de passe</label>
+          <input type="password" class="form-control" [(ngModel)]="confirmationMotDePasse" name="confirmation">
+        </div>
+
+        <div *ngIf="messageSucces" class="alert alert-success small">{{ messageSucces }}</div>
+        <div *ngIf="messageErreur" class="alert alert-danger small">{{ messageErreur }}</div>
+
+        <button class="btn btn-primary" (click)="changerMotDePasse()" [disabled]="isSaving">
+          <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2"></span>
+          Enregistrer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

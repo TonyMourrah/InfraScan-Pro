@@ -1,0 +1,69 @@
+<div class="container py-5">
+  <a routerLink="/actifs" class="btn btn-outline-secondary btn-sm mb-4">
+    <i class="bi bi-arrow-left me-1"></i> Retour au tableau de bord
+  </a>
+
+  <h2 class="fw-bold mb-4"><i class="bi bi-speedometer me-2"></i>Espace Admin</h2>
+
+  <div class="row g-3 mb-4" *ngIf="stats">
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm p-3 h-100">
+        <div class="text-muted small text-uppercase fw-bold">Total actifs</div>
+        <div class="h3 mb-0">{{ stats.totalActifs }}</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm p-3 h-100">
+        <div class="text-muted small text-uppercase fw-bold">Santé moyenne</div>
+        <div class="h3 mb-0 text-info">{{ stats.santeMoyenne }}%</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm p-3 h-100">
+        <div class="text-muted small text-uppercase fw-bold">Urgences</div>
+        <div class="h3 mb-0 text-danger">{{ stats.urgences }}</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-0 shadow-sm p-3 h-100">
+        <div class="text-muted small text-uppercase fw-bold">Utilisateurs</div>
+        <div class="h3 mb-0">{{ stats.totalUtilisateurs }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+      <h5 class="fw-bold mb-3"><i class="bi bi-people me-2"></i>Gestion des rôles</h5>
+
+      <div *ngIf="loading" class="text-center py-4">
+        <div class="spinner-border text-primary"></div>
+      </div>
+
+      <table class="table table-hover" *ngIf="!loading">
+        <thead>
+          <tr class="text-muted small text-uppercase">
+            <th>Identifiant</th>
+            <th>Rôle actuel</th>
+            <th>Changer le rôle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of utilisateurs">
+            <td class="fw-bold">{{ u.username }}</td>
+            <td><span class="badge bg-secondary">{{ u.role }}</span></td>
+            <td>
+              <select class="form-select form-select-sm w-auto d-inline-block"
+                      [ngModel]="u.role"
+                      (ngModelChange)="changerRole(u, $event)"
+                      [disabled]="isSavingId === u.id">
+                <option *ngFor="let r of rolesDisponibles" [value]="r">{{ r }}</option>
+              </select>
+              <span *ngIf="isSavingId === u.id" class="spinner-border spinner-border-sm ms-2"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
