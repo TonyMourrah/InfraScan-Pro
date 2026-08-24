@@ -7,7 +7,7 @@
     {{ estConnecte() ? 'Retour au tableau de bord' : "Retour à l'accueil" }}
   </a>
 
-  <div class="card border-0 shadow-sm mb-4">
+  <section class="card border-0 shadow-sm mb-4">
     <div class="card-body p-4 p-md-5">
       <div class="row align-items-center g-4">
         <div class="col-md-3 text-center">
@@ -18,13 +18,16 @@
 
         <div class="col-md-9">
           <h1 class="fw-bold mb-1">{{ nomComplet }}</h1>
-          <p class="text-muted fs-5 mb-3">{{ titre }}</p>
+
+          <p class="text-muted fs-5 mb-3">
+            {{ titre }}
+          </p>
 
           <div class="d-flex flex-wrap gap-2">
             <a
               [href]="githubUrl"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               class="btn btn-dark btn-sm"
             >
               <i class="bi bi-github me-1"></i>
@@ -34,7 +37,7 @@
             <a
               [href]="linkedinUrl"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               class="btn btn-primary btn-sm"
             >
               <i class="bi bi-linkedin me-1"></i>
@@ -52,16 +55,16 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <div class="row g-4">
     <div class="col-lg-7">
-      <div class="card border-0 shadow-sm h-100">
+      <section class="card border-0 shadow-sm h-100">
         <div class="card-body p-4">
-          <h5 class="fw-bold text-uppercase text-muted mb-3">
+          <h2 class="h5 fw-bold text-muted mb-3">
             <i class="bi bi-lightbulb me-2"></i>
             Pourquoi ce projet
-          </h5>
+          </h2>
 
           <p class="mb-3">
             <strong>Le constat.</strong>
@@ -88,9 +91,9 @@
             théorie seulement.
           </p>
 
-          <h6 class="fw-bold text-uppercase text-muted small mb-2">
+          <h3 class="h6 fw-bold text-muted small mb-2">
             Fonctionnalités
-          </h6>
+          </h3>
 
           <ul class="list-unstyled mb-0">
             @for (fonctionnalite of fonctionnalites; track fonctionnalite) {
@@ -101,29 +104,29 @@
             }
           </ul>
         </div>
-      </div>
+      </section>
     </div>
 
     <div class="col-lg-5">
-      <div class="card border-0 shadow-sm h-100">
+      <section class="card border-0 shadow-sm h-100">
         <div class="card-body p-4">
-          <h5 class="fw-bold text-uppercase text-muted mb-3">
+          <h2 class="h5 fw-bold text-muted mb-3">
             <i class="bi bi-stack me-2"></i>
             Stack technique
-          </h5>
+          </h2>
 
           <div class="row g-2">
             @for (tech of technologies; track tech.nom) {
               <div class="col-6">
                 <div class="tech-badge">
-                  <i class="bi {{ tech.icone }} me-2"></i>
+                  <i [class]="'bi ' + tech.icone + ' me-2'"></i>
                   {{ tech.nom }}
                 </div>
               </div>
             }
           </div>
         </div>
-      </div>
+      </section>
     </div>
   </div>
 </div>
