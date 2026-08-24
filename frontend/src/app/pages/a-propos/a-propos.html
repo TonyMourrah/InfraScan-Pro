@@ -1,11 +1,17 @@
 <div class="container py-5">
-  <a [routerLink]="estConnecte ? '/actifs' : '/'" class="btn btn-outline-secondary btn-sm mb-4">
-    <i class="bi bi-arrow-left me-1"></i> {{ estConnecte ? 'Retour au tableau de bord' : 'Retour à l\'accueil' }}
+  <a
+    [routerLink]="estConnecte ? '/actifs' : '/'"
+    class="btn btn-outline-secondary btn-sm mb-4"
+  >
+    <i class="bi bi-arrow-left me-1"></i>
+    {{ estConnecte ? 'Retour au tableau de bord' : 'Retour à l\'accueil' }}
   </a>
 
   <div class="text-center mb-5">
     <h1 class="fw-bold">Comment utiliser InfraScan Pro</h1>
-    <p class="text-muted">Un guide rapide pour tirer le maximum de la plateforme</p>
+    <p class="text-muted">
+      Un guide rapide pour tirer le maximum de la plateforme
+    </p>
   </div>
 
   <div class="row g-4">
@@ -16,6 +22,7 @@
             <div class="etape-icon me-3">
               <i class="bi {{ etape.icone }}"></i>
             </div>
+
             <div>
               <h6 class="fw-bold mb-1">{{ etape.titre }}</h6>
               <p class="small text-muted mb-0">{{ etape.description }}</p>
@@ -42,7 +49,12 @@
               {{ faq.question }}
             </button>
           </h2>
-          <div [id]="'faq-' + i" class="accordion-collapse collapse" data-bs-parent="#accordionFaq">
+
+          <div
+            [id]="'faq-' + i"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionFaq"
+          >
             <div class="accordion-body text-muted small">
               {{ faq.reponse }}
             </div>
@@ -54,7 +66,7 @@
 
   <p class="mt-4 text-muted text-center">
     Envie d'en savoir plus sur le projet ?
-    
+    <a
       routerLink="/portfolio"
       class="fw-bold text-decoration-underline ms-1"
       style="color: #0b3d24"
