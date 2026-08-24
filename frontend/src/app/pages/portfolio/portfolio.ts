@@ -8,14 +8,12 @@ import { AuthService } from '../../services/auth';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './portfolio.html',
-  styleUrl: './portfolio.scss'
+  styleUrl: './portfolio.scss',
 })
 export class PortfolioComponent {
-  private authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
 
-  get estConnecte(): boolean {
-    return this.authService.isLoggedIn();
-  }
+  protected readonly estConnecte = this.authService.estConnecte;
 
   nomComplet = 'Tony Mourrah';
   titre = 'Étudiant en génie logiciel — ÉTS';
@@ -33,7 +31,7 @@ export class PortfolioComponent {
     { nom: 'GitHub Actions (CI/CD)', icone: 'bi-gear-wide-connected' },
     { nom: 'xUnit', icone: 'bi-check2-square' },
     { nom: 'Leaflet / OpenStreetMap', icone: 'bi-geo-alt' },
-    { nom: 'Chart.js', icone: 'bi-graph-up' }
+    { nom: 'Chart.js', icone: 'bi-graph-up' },
   ];
 
   fonctionnalites = [
@@ -42,10 +40,10 @@ export class PortfolioComponent {
     'Traçabilité complète : historique horodaté de chaque modification',
     'Géolocalisation automatique avec carte interactive (Leaflet)',
     'Galerie de photos par actif (Azure Blob Storage)',
-    'Graphique d\'évolution de l\'indice de santé dans le temps',
+    "Graphique d'évolution de l'indice de santé dans le temps",
     'Espace Admin avec statistiques globales et gestion des rôles',
     'Mots de passe sécurisés par hachage cryptographique (BCrypt)',
     'Tests automatisés (xUnit) intégrés au pipeline CI/CD',
-    'Déploiement cloud complet sur Azure avec pipeline CI/CD automatisé'
+    'Déploiement cloud complet sur Azure avec pipeline CI/CD automatisé',
   ];
 }

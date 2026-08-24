@@ -9,13 +9,10 @@ import { AuthService } from '../../services/auth';
   templateUrl: './a-propos.html',
   styleUrl: './a-propos.scss',
 })
-
-
 export class AProposComponent {
-   private authService = inject(AuthService);
-    get estConnecte(): boolean {
-    return this.authService.isLoggedIn();
-  }
+  private readonly authService = inject(AuthService);
+
+  protected readonly estConnecte = this.authService.estConnecte;
   etapes = [
     {
       icone: 'bi-person-plus',
