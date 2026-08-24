@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
+import { AuthService } from '../../services/auth';
 @Component({
   selector: 'app-a-propos',
   standalone: true,
@@ -9,7 +9,13 @@ import { RouterModule } from '@angular/router';
   templateUrl: './a-propos.html',
   styleUrl: './a-propos.scss',
 })
+
+
 export class AProposComponent {
+   private authService = inject(AuthService);
+    get estConnecte(): boolean {
+    return this.authService.isLoggedIn();
+  }
   etapes = [
     {
       icone: 'bi-person-plus',
