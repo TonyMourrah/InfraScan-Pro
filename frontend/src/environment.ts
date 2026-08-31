@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://infrascan-api-ckdnhfcwguatgpea.eastus2-01.azurewebsites.net/api'
+  apiUrl: 'infrascan-api-v2-gnabfbgce9cpfugd.westus3-01.azurewebsites.net'
 };
